@@ -1,33 +1,30 @@
 package didoo.study.board.member;
 
-import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import java.util.List;
+import java.util.Optional;
 
-@Controller
-@RequestMapping(value = "/api/members", produces = MediaTypes.HAL_JSON_VALUE)
+@RequiredArgsConstructor
+@RestController
+@RequestMapping(value = "members")
 public class MemberController {
 
-    private final MemberRepository memberRepository;
-
-    public MemberController(MemberRepository memberRepository) {
-
-        this.memberRepository = memberRepository;
-    }
+    private final MemberService memberService;
 
     @PostMapping
-    private ResponseEntity createMember(@RequestBody Member member) {
-
-        memberRepository.save(member);
-
-        WebMvcLinkBuilder link = linkTo(MemberController.class).slash("{id}");
-        member.setId(1L);
-        return ResponseEntity.created(link.toUri()).body(member);
+    public ResponseEntity<?> createMember(@RequestBody Member member) {
+        Member saveResult = memberService.createMember(member);
+        return new ResponseEntity<>(saveResult, HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Member>> getMemberList() {
+        List<Member> members = memberService.getMembers();
+         return ResponseEntity.ok().body(members);
+    }
+
 }
