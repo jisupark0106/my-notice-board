@@ -4,8 +4,14 @@ import didoo.study.board.common.BaseDateEntity;
 import didoo.study.board.member.Member;
 import didoo.study.board.writing.Writing;
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class WritingLike extends BaseDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
