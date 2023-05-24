@@ -5,11 +5,17 @@ import didoo.study.board.common.BaseDateEntity;
 import didoo.study.board.like.WritingLike;
 import didoo.study.board.member.Member;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Writing extends BaseDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +30,5 @@ public class Writing extends BaseDateEntity {
     private Category category;
 
     @OneToMany(mappedBy = "writing", orphanRemoval = true)
-    private List<WritingLike> likes = new ArrayList<>();
+    private final List<WritingLike> likes = new ArrayList<>();
 }
