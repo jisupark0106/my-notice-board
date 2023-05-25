@@ -17,6 +17,7 @@ import java.util.List;
 public class Category extends BaseDateEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     @OneToMany(mappedBy = "category")
     private final List<Writing> writings = new ArrayList<>();
